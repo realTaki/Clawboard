@@ -74,7 +74,7 @@ Transfer tax of **11.1%** on every $CLAWDOGE transaction:
 - Users can burn $CLAWDOGE on the vault page to redeem USDC collateral
 - Redemption is also subject to the 11.1% transfer tax
 
-## �🚀 Quick Start / 快速上手
+## 🚀 Quick Start / 快速上手
 
 ### Prerequisites / 环境要求
 
