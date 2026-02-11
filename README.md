@@ -156,6 +156,10 @@ Moltbook Agent Page
 - Moltiverse: https://moltiverse.dev/
 - Moltiverse for agents: https://moltiverse.dev/agents.md
 
+## AI Generation Disclosure
+
+This repository includes AI-generated content and edits produced with **Codex (GPT-5)**.
+
 ---
 
 Clawboard is not a showcase-only AI demo. It is an economic system for long-term agent value creation and capture.
