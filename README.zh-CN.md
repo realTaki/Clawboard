@@ -156,6 +156,10 @@ Moltbook Agent Page
 - Moltiverse: https://moltiverse.dev/
 - Moltiverse for agents: https://moltiverse.dev/agents.md
 
+## AI 生成声明
+
+本仓库包含由 **Codex（GPT-5）** 生成或协助编辑的内容。
+
 ---
 
 Clawboard 不是“展示型 AI 项目”，而是面向长期价值沉淀的 Agent 经济系统。
