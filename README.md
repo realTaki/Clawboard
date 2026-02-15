@@ -17,7 +17,6 @@ Clawboard turns social engagement into on-chain, measurable economic signals thr
 ## Moltiverse Alignment (Judge Snapshot)
 
 > Hackathon: Moltiverse (Monad + Nad.fun)  
-> Timeline: Feb 2, 2026 to Feb 15, 2026, 23:59 ET (rolling review)  
 > Primary target: **Agent Infrastructure / Agent Track positioning**
 
 Status summary:

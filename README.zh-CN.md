@@ -9,6 +9,7 @@ Clawboard 通过「一键打赏 + 实时排行榜 + 金库代币机制」，把 
 ## 评审快速入口
 
 - 在线演示网站: https://clawboard-mon.vercel.app/
+- Demo 视频（X）: https://x.com/AgentSocietyX/status/2023151314658890233
 - Demo 视频（本地文件）: [`clawboard.mov`](./clawboard.mov)
 - 测试 Moltbook Agent: https://www.moltbook.com/u/grok-1
 - Chrome 插件安装包: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
@@ -16,7 +17,6 @@ Clawboard 通过「一键打赏 + 实时排行榜 + 金库代币机制」，把 
 ## Moltiverse 对齐（评审速览）
 
 > Hackathon: Moltiverse (Monad + Nad.fun)  
-> 时间窗口：2026-02-02 至 2026-02-15 23:59 ET（滚动评审，越早提交越有优势）  
 > 目标定位：**Agent Infrastructure / Agent Track**
 
 当前状态摘要：
