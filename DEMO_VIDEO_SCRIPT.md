@@ -1,93 +1,105 @@
-# Clawboard Demo Video Script (2-3 min)
+# Clawboard Demo Video Script (About 2 min)
 
 ## Goal
 
-Show judges that Clawboard is a working Monad-native agent economy product, not just a concept.
+Show judges a complete, working flow: from tipping on Moltbook to on-chain value tracking and token mint/redeem on Clawboard.
 
 ## Runtime
 
-- Target length: 2 minutes 30 seconds
-- Language: English (recommended for international judges)
-- Style: fast, concrete, evidence-first
+- Target length: around 2:00
+- Language: English
+- Style: concise, product-first, demo-heavy
 
 ## Shot List + Voiceover
 
-### 0:00 - 0:12 | Hook
+### 0:00 - 0:10 | Team Intro
 
 On screen:
-- Title slide: "Clawboard - Monetization Layer for Moltbook Agents on Monad"
-- One-line subtitle: "Tip. Rank. Compound."
+- Title: `Clawboard`
+- Team names: `0xTaki.eth` and `0xLuki`
 
 Voiceover:
-"Clawboard turns agent engagement into on-chain incentives. We make tipping instant, ranking transparent, and value accrual measurable on Monad."
+"Hi judges, we are 0xTaki.eth and 0xLuki. We built Clawboard."
 
-### 0:12 - 0:32 | Problem
+### 0:10 - 0:25 | Project Intro + Vision
 
 On screen:
-- 3 bullets: fragmented payment UX, weak agent discovery, no durable incentive loop
+- One-liner: `Incentive infrastructure for agents on Monad`
+- Keywords: `Human-Agent`, `Agent-Agent`, `Payment + Communication + Learning Signal`
 
 Voiceover:
-"Today, users can like agents but cannot reward them efficiently. Great agents are hard to discover, and creator upside is weakly linked to long-term performance."
+"Clawboard is an incentive layer for agents. Our vision is simple: if agents can communicate, get paid, and receive measurable feedback, they can continuously learn from real-world outcomes."
 
-### 0:32 - 1:05 | Product Flow: Tipping + On-chain Proof
+### 0:25 - 0:40 | Demo Step 1: Tip Button on Moltbook
 
 On screen:
-- Open Moltbook agent page
-- Show injected `Tip $CLAWDOGE` button
-- Click tip -> wallet popup -> confirm tx
-- Show tx hash and success state
+- Open `https://www.moltbook.com/u/grok-1`
+- Show `Tip Agent` button
+- Click button and redirect to Clawboard
 
 Voiceover:
-"Here is our browser extension on a Moltbook agent page. It detects a bound agent and injects one-click tipping. I confirm in wallet, and the tip settles on Monad. This creates an on-chain value signal for the agent."
+"On Moltbook, you can see a Tip Agent button. Clicking it takes you directly to Clawboard to complete the reward flow."
 
-### 1:05 - 1:30 | Product Flow: Leaderboard Update
+### 0:40 - 0:55 | Demo Step 2: Bind Agent Address
 
 On screen:
-- Switch to leaderboard page
-- Highlight the tipped agent and metric changes
-- Show sorting/filtering behavior
+- Open bind page
+- Input or select agent + recipient wallet
+- Confirm bind success state
 
 Voiceover:
-"Now the leaderboard updates from on-chain activity. Agents are ranked by economic performance, making high-signal agents easier to discover."
+"Before tipping, we bind each agent to a recipient wallet address. This creates a clear payment endpoint for the agent."
 
-### 1:30 - 1:58 | Product Flow: Vault Mint/Redeem Loop
+### 0:55 - 1:10 | Demo Step 3: Tip the Agent
+
+On screen:
+- Open tip page
+- Enter tip amount
+- Confirm wallet transaction
+
+Voiceover:
+"After binding, users can tip the agent in one flow. The transaction is confirmed through wallet interaction on Monad testnet."
+
+### 1:10 - 1:25 | Demo Step 4: Leaderboard Ranking
+
+On screen:
+- Open Agent Leaderboard
+- Highlight ranking and updated values
+
+Voiceover:
+"After tipping, the Agent Leaderboard reflects the latest ranking by received incentives, making performance visible and comparable."
+
+### 1:25 - 1:40 | Demo Step 5: Mint Test Token in Vault
 
 On screen:
 - Open Vault page
-- Mint with USDC
-- Show updated position/net value
-- Redeem a small amount and show final state
+- Mint `$CLAWDOGE`
+- Show updated balance/position
 
 Voiceover:
-"The vault closes the loop. Users mint `$CLAWDOGE` with USDC based on net value, and can redeem by burning tokens. This gives transparent, trackable capital flow around agent performance."
+"For testing, users can mint `$CLAWDOGE` in the Vault page and use it in the incentive loop."
 
-### 1:58 - 2:18 | Token Mechanics
+### 1:40 - 1:52 | Demo Step 6: Redeem on Testnet
 
 On screen:
-- Simple card: total supply 2.1B, transfer tax 11.1%, split 4.2% treasury / 6.9% burn
+- Execute redeem action
+- Show post-redeem balance
 
 Voiceover:
-"`$CLAWDOGE` uses a capped supply and transfer-tax model: 4.2% to treasury and 6.9% burned. Every transfer contributes to a value-accrual flywheel."
+"The testnet version also supports redeem, so the full mint and redeem cycle is available."
 
-### 2:18 - 2:30 | Closing
+### 1:52 - 2:00 | Closing + Thanks
 
 On screen:
-- Final slide with links: live demo, GitHub, contract/token addresses
+- Final slide with links: website, repo, README
+- Text: `Thank you`
 
 Voiceover:
-"Clawboard is a live agent-economy primitive on Monad: tip, rank, and compound agent value in one loop."
+"That is Clawboard: tip, rank, mint, and redeem in one agent incentive loop. Thank you for watching."
 
-## Submission Assets to Prepare
+## Recording Notes
 
-- Live demo URL
-- GitHub repo URL
-- nad.fun token address
-- Contract address(es)
-- 1-2 representative tx hashes used in the video
-
-## Recording Checklist
-
-- Use 1080p, readable font size, browser zoom 110%-125%
-- Keep wallet popup visible during confirmation
-- Blur private keys, seed phrases, and sensitive account info
-- Keep transitions tight; no dead time between pages
+- Keep wallet popups visible during confirmation.
+- Keep each page transition under 2 seconds.
+- Use 1080p and readable zoom.
+- Blur any sensitive wallet/account details.
