@@ -99,11 +99,12 @@ function encodeGetAgent(agentId: string): string {
 /**
  * 编码 getAgentBalance(string agentId) 的调用数据
  * function selector: keccak256("getAgentBalance(string)") 前4字节
+ * Verified against Solidity: bytes4(keccak256("getAgentBalance(string)"))
  */
 function encodeGetAgentBalance(agentId: string): string {
     // function selector for getAgentBalance(string)
-    // keccak256("getAgentBalance(string)") 前 4 字节
-    const selector = '0x0c85c9f7'; // keccak256("getAgentBalance(string)") 前4字节
+    // keccak256("getAgentBalance(string)") = 0x0c85c9f7...
+    const selector = '0x0c85c9f7';
 
     // ABI 编码 string 参数 (same as getAgent)
     const offset = '0000000000000000000000000000000000000000000000000000000000000020';
