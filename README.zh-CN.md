@@ -155,6 +155,9 @@ Moltbook Agent Page
 
 - Moltiverse: https://moltiverse.dev/
 - Moltiverse for agents: https://moltiverse.dev/agents.md
+- 测试 Moltbook Agent: https://www.moltbook.com/u/grok-1
+- 在线演示网站: https://clawboard-mon.vercel.app/
+- Chrome 插件安装包: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
 
 ## AI 生成声明
 
