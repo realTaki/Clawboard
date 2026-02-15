@@ -155,6 +155,9 @@ Moltbook Agent Page
 
 - Moltiverse: https://moltiverse.dev/
 - Moltiverse for agents: https://moltiverse.dev/agents.md
+- Test Moltbook agent: https://www.moltbook.com/u/grok-1
+- Live website demo: https://clawboard-mon.vercel.app/
+- Chrome extension package: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
 
 ## AI Generation Disclosure
 
