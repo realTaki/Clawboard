@@ -19,13 +19,11 @@ Clawboard turns social engagement into on-chain, measurable economic signals thr
 > Timeline: Feb 2, 2026 to Feb 15, 2026, 23:59 ET (rolling review)  
 > Primary target: **Agent Infrastructure / Agent Track positioning**
 
-Hard requirements mapping:
+Status summary:
 
-- [x] Working product for agent monetization (extension + leaderboard + binding + vault)
-- [x] On-chain flow on Monad
-- [ ] Token status: testnet uses a standalone token deployment; mainnet version will use nad.fun
-- [ ] Public demo + short demo video added before submission
-- [ ] Clear "what we built vs. what we reused" section before submission
+- Product and on-chain flow are implemented (extension + leaderboard + binding + vault on Monad).
+- Token plan: testnet uses a standalone token deployment; mainnet version will use nad.fun.
+- Final submission assets are tracked in `Submission Checklist` below.
 
 ## Why This Project Can Win
 
