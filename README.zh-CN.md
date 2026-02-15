@@ -9,7 +9,7 @@ Clawboard 通过「一键打赏 + 实时排行榜 + 金库代币机制」，把 
 ## 评审快速入口
 
 - 在线演示网站: https://clawboard-mon.vercel.app/
-- Demo 视频（X）: https://x.com/AgentSocietyX/status/2023151314658890233
+- Demo 视频（X）: https://x.com/AgentSocietyX/status/2023176022611648792
 - Demo 视频（本地文件）: [`clawboard.mov`](./clawboard.mov)
 - 测试 Moltbook Agent: https://www.moltbook.com/u/grok-1
 - Chrome 插件安装包: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
@@ -146,7 +146,7 @@ Moltbook Agent Page
 ## 提交前清单
 
 - [x] 在线项目地址：`https://clawboard-mon.vercel.app/`
-- [x] Demo 视频（2-3 分钟）：`https://x.com/AgentSocietyX/status/2023151314658890233`
+- [x] Demo 视频（2-3 分钟）：`https://x.com/AgentSocietyX/status/2023176022611648792`
 - [ ] 代币状态：测试网为单独部署 token，主网使用 nad.fun（补充正式地址）：`TODO`
 - [x] 合约地址：`0xa17932cfdfa1e7a169819dee0665a6761ca93d04`（Monad testnet）
 - [x] 原创与复用说明：见下方 `原创与复用说明`
