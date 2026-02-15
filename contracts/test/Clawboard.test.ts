@@ -149,14 +149,14 @@ describe("Clawboard Contracts", function () {
             // Tip the agent
             await registry.connect(user2).tip("grok-1", tipAmount);
 
-            // Check stats updated
+            // Check stats updated - totalReceived should be post-tax amount
             const agent = await registry.getAgent("grok-1");
             expect(agent.tipCount).to.equal(1);
-            expect(agent.totalReceived).to.equal(tipAmount);
+            const expectedAfterTax = tipAmount * 889n / 1000n;
+            expect(agent.totalReceived).to.equal(expectedAfterTax);
 
             // Agent wallet should have received tokens (minus 11.1% tax)
             const agentBalance = await clawdoge.balanceOf(user1.address);
-            const expectedAfterTax = tipAmount * 889n / 1000n;
             expect(agentBalance).to.equal(expectedAfterTax);
         });
 
@@ -171,16 +171,17 @@ describe("Clawboard Contracts", function () {
 
         it("should only allow owner to call recordTip", async function () {
             await registry.connect(user1).registerAgent("grok-1", "Grok");
-            const tipAmount = ethers.parseEther("100");
+            // recordTip expects post-tax amounts for historical data
+            const actualReceivedAmount = ethers.parseEther("88.9"); // post-tax amount
 
             // owner can recordTip
-            await registry.recordTip("grok-1", user2.address, tipAmount);
+            await registry.recordTip("grok-1", user2.address, actualReceivedAmount);
             const agent = await registry.getAgent("grok-1");
-            expect(agent.totalReceived).to.equal(tipAmount);
+            expect(agent.totalReceived).to.equal(actualReceivedAmount);
 
             // non-owner cannot recordTip
             await expect(
-                registry.connect(user2).recordTip("grok-1", user2.address, tipAmount)
+                registry.connect(user2).recordTip("grok-1", user2.address, actualReceivedAmount)
             ).to.be.reverted;
         });
 
