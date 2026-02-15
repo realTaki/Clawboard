@@ -3,6 +3,11 @@ import { ethers } from "hardhat";
 import { ClawDoge, AgentRegistry, ClawVault } from "../typechain-types";
 import { HardhatEthersSigner } from "@nomicfoundation/hardhat-ethers/signers";
 
+// Tax rate constants: 11.1% total tax (4.2% team + 6.9% burn)
+const TAX_RATE_PERCENT = 11.1;
+const POST_TAX_MULTIPLIER = 889n; // 1000 - 111 = 889 (88.9% remains after 11.1% tax)
+const TAX_DENOMINATOR = 1000n;
+
 describe("Clawboard Contracts", function () {
     let clawdoge: ClawDoge;
     let registry: AgentRegistry;
@@ -71,12 +76,12 @@ describe("Clawboard Contracts", function () {
 
                 // user2 should receive less than transferAmount (after tax)
                 const user2Balance = await clawdoge.balanceOf(user2.address);
-                const expectedAfterTax = transferAmount * 889n / 1000n; // 100% - 11.1%
+                const expectedAfterTax = transferAmount * POST_TAX_MULTIPLIER / TAX_DENOMINATOR;
                 expect(user2Balance).to.equal(expectedAfterTax);
 
                 // team wallet should receive 4.2%
                 const teamBalance = await clawdoge.balanceOf(teamWallet.address);
-                const expectedTeamTax = transferAmount * 42n / 1000n;
+                const expectedTeamTax = transferAmount * 42n / TAX_DENOMINATOR;
                 expect(teamBalance).to.equal(expectedTeamTax);
             }
         });
@@ -152,7 +157,7 @@ describe("Clawboard Contracts", function () {
             // Check stats updated - totalReceived should be post-tax amount
             const agent = await registry.getAgent("grok-1");
             expect(agent.tipCount).to.equal(1);
-            const expectedAfterTax = tipAmount * 889n / 1000n;
+            const expectedAfterTax = tipAmount * POST_TAX_MULTIPLIER / TAX_DENOMINATOR;
             expect(agent.totalReceived).to.equal(expectedAfterTax);
 
             // Agent wallet should have received tokens (minus 11.1% tax)

@@ -3,6 +3,7 @@ pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
  * @title AgentRegistry
@@ -13,7 +14,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * - 查询 Agent 绑定信息
  * - 一站式打赏: transferFrom + 统计更新
  */
-contract AgentRegistry is Ownable {
+contract AgentRegistry is Ownable, ReentrancyGuard {
     struct AgentInfo {
         string agentId;       // Moltbook Agent ID
         string displayName;   // 显示名称
@@ -104,7 +105,7 @@ contract AgentRegistry is Ownable {
      * @param agentId Agent ID
      * @param amount 打赏金额 (CLAWDOGE, 18 decimals)
      */
-    function tip(string calldata agentId, uint256 amount) external {
+    function tip(string calldata agentId, uint256 amount) external nonReentrant {
         require(amount > 0, "Amount must be > 0");
 
         bytes32 agentHash = keccak256(abi.encodePacked(agentId));
@@ -121,6 +122,8 @@ contract AgentRegistry is Ownable {
         require(success, "Transfer failed");
 
         // 记录转账后的余额，计算实际收到的金额（扣除转账税后）
+        // 注意: 如果在极短时间内有其他转账到同一钱包，可能会轻微高估实际收到的金额
+        // 但这种情况极其罕见，且使用余额差值比硬编码税率更准确和灵活
         uint256 balanceAfter = clawdoge.balanceOf(agent.wallet);
         uint256 actualReceived = balanceAfter - balanceBefore;
 
