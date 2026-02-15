@@ -190,7 +190,8 @@ describe("Clawboard Contracts", function () {
             let balance = await registry.getAgentBalance("grok-1");
             expect(balance).to.equal(0);
 
-            // After minting some tokens to agent wallet
+            // After minting some tokens to agent wallet (user1 is the agent owner)
+            // Vault mint gives tokens to the minter's address
             await vault.connect(user1).mint({ value: ethers.parseEther("1") });
             balance = await registry.getAgentBalance("grok-1");
             expect(balance).to.equal(ethers.parseEther("1000"));

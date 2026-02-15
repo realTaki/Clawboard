@@ -67,7 +67,7 @@ export default function LeaderboardPage() {
         return agents.map((agent, index) => ({
             ...agent,
             balance: balancesData?.[index]?.status === 'success' 
-                ? (balancesData[index].result as bigint)
+                ? (balancesData?.[index]?.result as bigint)
                 : BigInt(0),
         }));
     }, [agents, balancesData]);
