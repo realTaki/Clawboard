@@ -18,7 +18,7 @@ contract AgentRegistry is Ownable {
         string agentId;       // Moltbook Agent ID
         string displayName;   // 显示名称
         address wallet;       // 接收打赏的钱包地址
-        uint256 totalReceived;// 累计收到打赏 (CLAWDOGE)
+        uint256 totalReceived;// 累计实际收到的打赏金额 (CLAWDOGE, 扣除转账税后)
         uint256 tipCount;     // 累计被打赏次数
         uint256 registeredAt; // 注册时间
         bool isActive;        // 是否激活
@@ -113,12 +113,19 @@ contract AgentRegistry is Ownable {
         require(agent.isActive, "Agent not found");
         require(agent.wallet != address(0), "Agent has no wallet");
 
+        // 记录转账前的余额
+        uint256 balanceBefore = clawdoge.balanceOf(agent.wallet);
+
         // transferFrom: 从打赏者转到 Agent 钱包
         bool success = clawdoge.transferFrom(msg.sender, agent.wallet, amount);
         require(success, "Transfer failed");
 
-        // 更新统计
-        agent.totalReceived += amount;
+        // 记录转账后的余额，计算实际收到的金额（扣除转账税后）
+        uint256 balanceAfter = clawdoge.balanceOf(agent.wallet);
+        uint256 actualReceived = balanceAfter - balanceBefore;
+
+        // 更新统计（记录实际收到的金额）
+        agent.totalReceived += actualReceived;
         agent.tipCount++;
         
         emit TipRecorded(agentHash, msg.sender, amount);
@@ -126,6 +133,10 @@ contract AgentRegistry is Ownable {
 
     /**
      * @notice 记录一次打赏 (仅 owner 可调用，用于历史数据补录)
+     * @dev 此函数直接添加 amount 到 totalReceived，用于补录历史数据时应传入实际收到的金额
+     * @param agentId Agent ID
+     * @param tipper 打赏者地址
+     * @param amount 实际收到的金额（应为扣除转账税后的金额）
      */
     function recordTip(string calldata agentId, address tipper, uint256 amount) external onlyOwner {
         bytes32 agentHash = keccak256(abi.encodePacked(agentId));
