@@ -18,7 +18,6 @@ contract AgentRegistry is Ownable {
         string agentId;       // Moltbook Agent ID
         string displayName;   // 显示名称
         address wallet;       // 接收打赏的钱包地址
-        uint256 totalReceived;// 累计收到打赏 (CLAWDOGE)
         uint256 tipCount;     // 累计被打赏次数
         uint256 registeredAt; // 注册时间
         bool isActive;        // 是否激活
@@ -63,7 +62,6 @@ contract AgentRegistry is Ownable {
             agentId: agentId,
             displayName: displayName,
             wallet: msg.sender,
-            totalReceived: 0,
             tipCount: 0,
             registeredAt: block.timestamp,
             isActive: true
@@ -118,7 +116,6 @@ contract AgentRegistry is Ownable {
         require(success, "Transfer failed");
 
         // 更新统计
-        agent.totalReceived += amount;
         agent.tipCount++;
         
         emit TipRecorded(agentHash, msg.sender, amount);
@@ -133,7 +130,6 @@ contract AgentRegistry is Ownable {
         
         require(agent.isActive, "Agent not found");
         
-        agent.totalReceived += amount;
         agent.tipCount++;
         
         emit TipRecorded(agentHash, tipper, amount);
@@ -153,6 +149,18 @@ contract AgentRegistry is Ownable {
     function getAgentWallet(string calldata agentId) external view returns (address) {
         bytes32 agentHash = keccak256(abi.encodePacked(agentId));
         return agents[agentHash].wallet;
+    }
+
+    /**
+     * @notice 查询 Agent 钱包的实际代币余额
+     */
+    function getAgentBalance(string calldata agentId) external view returns (uint256) {
+        bytes32 agentHash = keccak256(abi.encodePacked(agentId));
+        address wallet = agents[agentHash].wallet;
+        if (wallet == address(0)) {
+            return 0;
+        }
+        return clawdoge.balanceOf(wallet);
     }
 
     /**

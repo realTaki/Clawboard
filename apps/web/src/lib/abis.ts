@@ -195,7 +195,6 @@ export const AGENT_REGISTRY_ABI = [
                     { name: "agentId", type: "string" },
                     { name: "displayName", type: "string" },
                     { name: "wallet", type: "address" },
-                    { name: "totalReceived", type: "uint256" },
                     { name: "tipCount", type: "uint256" },
                     { name: "registeredAt", type: "uint256" },
                     { name: "isActive", type: "bool" },
@@ -215,6 +214,13 @@ export const AGENT_REGISTRY_ABI = [
         type: "function",
     },
     {
+        inputs: [{ name: "agentId", type: "string" }],
+        name: "getAgentBalance",
+        outputs: [{ name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
         inputs: [{ name: "offset", type: "uint256" }, { name: "limit", type: "uint256" }],
         name: "getLeaderboard",
         outputs: [
@@ -223,7 +229,6 @@ export const AGENT_REGISTRY_ABI = [
                     { name: "agentId", type: "string" },
                     { name: "displayName", type: "string" },
                     { name: "wallet", type: "address" },
-                    { name: "totalReceived", type: "uint256" },
                     { name: "tipCount", type: "uint256" },
                     { name: "registeredAt", type: "uint256" },
                     { name: "isActive", type: "bool" },

@@ -152,12 +152,15 @@ describe("Clawboard Contracts", function () {
             // Check stats updated
             const agent = await registry.getAgent("grok-1");
             expect(agent.tipCount).to.equal(1);
-            expect(agent.totalReceived).to.equal(tipAmount);
 
             // Agent wallet should have received tokens (minus 11.1% tax)
             const agentBalance = await clawdoge.balanceOf(user1.address);
             const expectedAfterTax = tipAmount * 889n / 1000n;
             expect(agentBalance).to.equal(expectedAfterTax);
+            
+            // Verify getAgentBalance returns the same
+            const queryBalance = await registry.getAgentBalance("grok-1");
+            expect(queryBalance).to.equal(expectedAfterTax);
         });
 
         it("should fail tip() without approval", async function () {
@@ -176,7 +179,7 @@ describe("Clawboard Contracts", function () {
             // owner can recordTip
             await registry.recordTip("grok-1", user2.address, tipAmount);
             const agent = await registry.getAgent("grok-1");
-            expect(agent.totalReceived).to.equal(tipAmount);
+            expect(agent.tipCount).to.equal(1);
 
             // non-owner cannot recordTip
             await expect(
@@ -196,6 +199,19 @@ describe("Clawboard Contracts", function () {
             await registry.connect(user1).registerAgent("grok-1", "Grok");
             const wallet = await registry.getAgentWallet("grok-1");
             expect(wallet).to.equal(user1.address);
+        });
+
+        it("should get agent balance", async function () {
+            await registry.connect(user1).registerAgent("grok-1", "Grok");
+            
+            // Initially should be 0
+            let balance = await registry.getAgentBalance("grok-1");
+            expect(balance).to.equal(0);
+            
+            // After user1 (agent wallet) receives tokens, balance should update
+            await vault.connect(user1).mint({ value: ethers.parseEther("1") });
+            balance = await registry.getAgentBalance("grok-1");
+            expect(balance).to.equal(ethers.parseEther("1000"));
         });
     });
 
