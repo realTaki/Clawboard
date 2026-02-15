@@ -9,7 +9,7 @@ Clawboard turns social engagement into on-chain, measurable economic signals thr
 ## Judge Quick Links
 
 - Live website demo: https://clawboard-mon.vercel.app/
-- Demo video (X): https://x.com/AgentSocietyX/status/2023151314658890233
+- Demo video (X): https://x.com/AgentSocietyX/status/2023176022611648792
 - Demo video (local file): [`clawboard.mov`](./clawboard.mov)
 - Test Moltbook agent: https://www.moltbook.com/u/grok-1
 - Chrome extension package: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
@@ -205,7 +205,7 @@ cd webapp && npm install && npm run dev
 ## Submission Checklist (Fill Before Final Submit)
 
 - [x] Live project URL: `https://clawboard-mon.vercel.app/`
-- [x] Demo video (2-3 min): `https://x.com/AgentSocietyX/status/2023151314658890233`
+- [x] Demo video (2-3 min): `https://x.com/AgentSocietyX/status/2023176022611648792`
 - [ ] Token status: testnet uses standalone token; mainnet uses nad.fun (add final token address): `TODO`
 - [x] Contract address(es): `0xa17932cfdfa1e7a169819dee0665a6761ca93d04` (Monad testnet)
 - [x] Original work vs reused components: see `Original vs Reused Components` below
