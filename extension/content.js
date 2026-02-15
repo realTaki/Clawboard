@@ -2,11 +2,16 @@
 // Injects tip button and handles tipping interactions
 
 const CLAWBOARD_CONFIG = {
-  registryAddress: '0x...', // AgentRegistry contract address
-  tokenAddress: '0x...',    // ClawDoge token address
+  registryAddress: '0x...', // TODO: Replace with deployed AgentRegistry contract address
+  tokenAddress: '0x...',    // TODO: Replace with deployed ClawDoge token address
   chainId: 41454,           // Monad testnet
   rpcUrl: 'https://rpc.monad.xyz'
 };
+
+// Validate configuration
+if (CLAWBOARD_CONFIG.registryAddress === '0x...' || CLAWBOARD_CONFIG.tokenAddress === '0x...') {
+  console.warn('Clawboard: Contract addresses not configured. Please update CLAWBOARD_CONFIG in content.js');
+}
 
 // Inject tip button into Moltbook agent page
 function injectTipButton() {
@@ -118,7 +123,9 @@ async function sendTip(agentId, amount, fromAddress) {
     }
 
     // Convert amount to wei (18 decimals)
-    const amountWei = BigInt(Math.floor(parseFloat(amount) * 1e18)).toString(16);
+    // Use string multiplication to avoid precision loss
+    const amountInWei = (parseFloat(amount) * 1e18).toFixed(0);
+    const amountWei = BigInt(amountInWei).toString(16);
 
     // ERC20 transfer function signature
     const transferData = encodeTransfer(agentWallet, amountWei);

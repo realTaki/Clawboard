@@ -1,4 +1,9 @@
 // Popup script for extension
+
+// Constants for address display
+const ADDRESS_PREFIX_LENGTH = 6;
+const ADDRESS_SUFFIX_START = 38;
+
 document.addEventListener('DOMContentLoaded', async () => {
   const connectBtn = document.getElementById('connect-btn');
   const settingsBtn = document.getElementById('settings-btn');
@@ -21,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       if (accounts && accounts.length > 0) {
-        walletStatus.textContent = `${accounts[0].substring(0, 6)}...${accounts[0].substring(38)}`;
+        walletStatus.textContent = `${accounts[0].substring(0, ADDRESS_PREFIX_LENGTH)}...${accounts[0].substring(ADDRESS_SUFFIX_START)}`;
         connectBtn.textContent = 'Connected';
         connectBtn.disabled = true;
         
@@ -53,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
 
       if (accounts && accounts.length > 0) {
-        walletStatus.textContent = `${accounts[0].substring(0, 6)}...${accounts[0].substring(38)}`;
+        walletStatus.textContent = `${accounts[0].substring(0, ADDRESS_PREFIX_LENGTH)}...${accounts[0].substring(ADDRESS_SUFFIX_START)}`;
         connectBtn.textContent = 'Connected';
         connectBtn.disabled = true;
         

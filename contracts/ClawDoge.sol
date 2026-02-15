@@ -94,10 +94,19 @@ contract ClawDoge is ERC20, Ownable {
             uint256 burnAmount = (amount * BURN_RATE) / RATE_DENOMINATOR;
             uint256 transferAmount = amount - treasuryAmount - burnAmount;
             
-            // Execute transfers
-            _transfer(from, treasury, treasuryAmount);
-            _burn(from, burnAmount);
-            _transfer(from, to, transferAmount);
+            // Execute transfers and burn
+            // Transfer to treasury first
+            if (treasuryAmount > 0) {
+                _transfer(from, treasury, treasuryAmount);
+            }
+            // Transfer to recipient
+            if (transferAmount > 0) {
+                _transfer(from, to, transferAmount);
+            }
+            // Burn last (from original sender's remaining balance)
+            if (burnAmount > 0) {
+                _burn(from, burnAmount);
+            }
         }
     }
 

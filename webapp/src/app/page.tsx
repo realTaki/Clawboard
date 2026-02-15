@@ -56,7 +56,7 @@ export default function Home() {
   );
 }
 
-function FeatureCard({ icon, title, description }) {
+function FeatureCard({ icon, title, description }: { icon: string; title: string; description: string }) {
   return (
     <div className="bg-white/10 backdrop-blur-lg rounded-xl p-6 text-center hover:bg-white/20 transition">
       <div className="text-5xl mb-4">{icon}</div>
@@ -66,7 +66,7 @@ function FeatureCard({ icon, title, description }) {
   );
 }
 
-function ActionButton({ href, text }) {
+function ActionButton({ href, text }: { href: string; text: string }) {
   return (
     <a
       href={href}
@@ -77,7 +77,7 @@ function ActionButton({ href, text }) {
   );
 }
 
-function TokenStat({ label, value }) {
+function TokenStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="text-center">
       <div className="text-2xl font-bold mb-1">{value}</div>
