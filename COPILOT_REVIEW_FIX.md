@@ -78,10 +78,8 @@ There are two ways to make this fix take effect:
 If you encounter similar issues in the future, you may need to add rules for:
 
 - `*.log` - 日志文件 (Log files)
-- `*.txt` - 文本文件 (Text files)  
-- `*.md` - Markdown 文件 (Markdown files)
-- `*.json` - JSON 文件 (JSON files)
-- `*.yaml` 或 `*.yml` - YAML 配置文件 (YAML config files)
+- `*.data` 或 `*.dat` - 数据文件如果是文本格式 (Data files if text format)
+- Custom extensions - 自定义扩展名的文本文件 (Custom text file extensions)
 
 ## 最佳实践 (Best Practices)
 
