@@ -150,8 +150,28 @@ Moltbook Agent Page
 - [x] Demo video (2-3 min): `https://x.com/AgentSocietyX/status/2023151314658890233`
 - [ ] Token status: testnet uses standalone token; mainnet uses nad.fun (add final token address): `TODO`
 - [x] Contract address(es): `0xa17932cfdfa1e7a169819dee0665a6761ca93d04` (Monad testnet)
-- [ ] Original work vs reused components: `TODO`
+- [x] Original work vs reused components: see `Original vs Reused Components` below
 - [x] Team and contact info: `https://x.com/0xLuki`, `https://x.com/0xTaki_eth`
+
+## Original vs Reused Components
+
+### Original Work (Built by Our Team)
+
+- Product concept and mechanism design: agent incentive loop (`tip -> leaderboard -> vault`).
+- End-to-end UX flow: Moltbook entry, agent binding, tipping, leaderboard visibility, and vault interaction.
+- Project integration architecture across web app, extension, and contract interaction paths.
+- Clawboard-specific documentation, demo narrative, and hackathon submission packaging.
+
+### Reused / External Components
+
+- Open-source frameworks and tooling: `Next.js`, `React`, `TypeScript`, `TailwindCSS`, `Wagmi`, `Viem`, `Hardhat`, `WXT`.
+- Wallet/network infrastructure: standard wallet interactions and Monad testnet RPC infrastructure.
+- Platform dependencies: Moltbook as the external social/agent surface where tipping entry is triggered.
+
+### Notes
+
+- We reuse standard open-source libraries for infrastructure and developer productivity.
+- Core product direction, incentive design, and end-to-end user workflow are original to the Clawboard team.
 
 ## Roadmap
 

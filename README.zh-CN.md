@@ -149,8 +149,28 @@ Moltbook Agent Page
 - [x] Demo 视频（2-3 分钟）：`https://x.com/AgentSocietyX/status/2023151314658890233`
 - [ ] 代币状态：测试网为单独部署 token，主网使用 nad.fun（补充正式地址）：`TODO`
 - [x] 合约地址：`0xa17932cfdfa1e7a169819dee0665a6761ca93d04`（Monad testnet）
-- [ ] 原创与复用说明：`TODO`
+- [x] 原创与复用说明：见下方 `原创与复用说明`
 - [x] 团队信息与联系方式：`https://x.com/0xLuki`，`https://x.com/0xTaki_eth`
+
+## 原创与复用说明
+
+### 原创部分（团队自行完成）
+
+- 产品机制与概念设计：Agent 激励闭环（`tip -> leaderboard -> vault`）。
+- 端到端产品流程设计：从 Moltbook 入口、Agent 绑定、打赏、排行榜反馈到 Vault 交互。
+- Web、扩展与合约交互路径的一体化方案与落地整合。
+- Clawboard 的文档体系、Demo 叙事与黑客松提交材料组织。
+
+### 复用 / 外部组件
+
+- 开源框架与工具：`Next.js`、`React`、`TypeScript`、`TailwindCSS`、`Wagmi`、`Viem`、`Hardhat`、`WXT`。
+- 钱包与网络基础设施：标准钱包交互能力与 Monad 测试网 RPC 基础设施。
+- 平台依赖：Moltbook 作为外部社交/Agent 场景入口，触发打赏流程。
+
+### 说明
+
+- 我们复用的是通用开源基础设施与工程工具链。
+- Clawboard 的核心产品方向、激励机制与端到端用户闭环由团队原创设计并实现。
 
 ## 发展路线
 
