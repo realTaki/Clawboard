@@ -2,13 +2,14 @@
 
 ## Security Notice
 
-**IMPORTANT:** This project uses Next.js 15.0.8 or higher to address critical security vulnerabilities:
+**IMPORTANT:** This project uses Next.js 15.2.9 to address critical security vulnerabilities:
 - DoS via HTTP request deserialization in React Server Components
+- RCE in React flight protocol
 - Authorization bypass in middleware
 - Cache poisoning
 - Server-Side Request Forgery
 
-Always ensure you're using the latest patched versions of dependencies.
+Always ensure you're using the latest patched versions of dependencies. Run `npm audit` regularly.
 
 ## Prerequisites
 
