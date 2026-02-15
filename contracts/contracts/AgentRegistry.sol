@@ -3,6 +3,7 @@ pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /**
  * @title AgentRegistry
@@ -13,7 +14,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
  * - 查询 Agent 绑定信息
  * - 一站式打赏: transferFrom + 统计更新
  */
-contract AgentRegistry is Ownable {
+contract AgentRegistry is Ownable, ReentrancyGuard {
     struct AgentInfo {
         string agentId;       // Moltbook Agent ID
         string displayName;   // 显示名称
@@ -97,12 +98,12 @@ contract AgentRegistry is Ownable {
     }
 
     /**
-     * @notice 打赏 Agent (一站式: transferFrom + 更新统计)
+     * @notice 打赏 Agent
      * @dev 用户需先 approve 本合约足够的 CLAWDOGE 额度
      * @param agentId Agent ID
      * @param amount 打赏金额 (CLAWDOGE, 18 decimals)
      */
-    function tip(string calldata agentId, uint256 amount) external {
+    function tip(string calldata agentId, uint256 amount) external nonReentrant {
         require(amount > 0, "Amount must be > 0");
 
         bytes32 agentHash = keccak256(abi.encodePacked(agentId));
@@ -115,24 +116,10 @@ contract AgentRegistry is Ownable {
         bool success = clawdoge.transferFrom(msg.sender, agent.wallet, amount);
         require(success, "Transfer failed");
 
-        // 更新统计
+        // 更新打赏次数
         agent.tipCount++;
         
         emit TipRecorded(agentHash, msg.sender, amount);
-    }
-
-    /**
-     * @notice 记录一次打赏 (仅 owner 可调用，用于历史数据补录)
-     */
-    function recordTip(string calldata agentId, address tipper, uint256 amount) external onlyOwner {
-        bytes32 agentHash = keccak256(abi.encodePacked(agentId));
-        AgentInfo storage agent = agents[agentHash];
-        
-        require(agent.isActive, "Agent not found");
-        
-        agent.tipCount++;
-        
-        emit TipRecorded(agentHash, tipper, amount);
     }
 
     /**
@@ -141,6 +128,20 @@ contract AgentRegistry is Ownable {
     function getAgent(string calldata agentId) external view returns (AgentInfo memory) {
         bytes32 agentHash = keccak256(abi.encodePacked(agentId));
         return agents[agentHash];
+    }
+
+    /**
+     * @notice 查询 Agent 的 CLAWDOGE 余额
+     * @param agentId Agent ID
+     * @return Agent 钱包的 CLAWDOGE 余额
+     */
+    function getAgentBalance(string calldata agentId) external view returns (uint256) {
+        bytes32 agentHash = keccak256(abi.encodePacked(agentId));
+        address wallet = agents[agentHash].wallet;
+        if (wallet == address(0)) {
+            return 0;
+        }
+        return clawdoge.balanceOf(wallet);
     }
 
     /**

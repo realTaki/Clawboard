@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { useReadContract } from 'wagmi';
+import { useReadContract, useReadContracts } from 'wagmi';
 import { formatEther } from 'viem';
 import { Search, Crown, Copy, CheckCircle, ExternalLink, Users } from 'lucide-react';
 import { CONTRACT_ADDRESSES } from '@/lib/web3';
@@ -52,22 +52,41 @@ export default function LeaderboardPage() {
         ? (leaderboardData as AgentInfo[]).filter((a) => a.isActive)
         : [];
 
+    // Fetch balances for all agents
+    const { data: balancesData } = useReadContracts({
+        contracts: agents.map((agent) => ({
+            address: CONTRACT_ADDRESSES.AGENT_REGISTRY as `0x${string}`,
+            abi: AGENT_REGISTRY_ABI,
+            functionName: 'getAgentBalance',
+            args: [agent.agentId],
+        })),
+    });
+
+    // Combine agents with their balances
+    const agentsWithBalances = useMemo(() => {
+        return agents.map((agent, index) => ({
+            ...agent,
+            balance: balancesData?.[index]?.status === 'success' 
+                ? (balancesData?.[index]?.result as bigint)
+                : BigInt(0),
+        }));
+    }, [agents, balancesData]);
+
     const filteredAgents = useMemo(() => {
-        if (!searchQuery) return agents;
+        if (!searchQuery) return agentsWithBalances;
         const q = searchQuery.toLowerCase();
-        return agents.filter(
+        return agentsWithBalances.filter(
             (a) =>
                 a.agentId.toLowerCase().includes(q) ||
                 a.displayName.toLowerCase().includes(q) ||
                 a.wallet.toLowerCase().includes(q)
         );
-    }, [agents, searchQuery]);
+    }, [agentsWithBalances, searchQuery]);
 
     const sortedAgents = useMemo(() => {
         return [...filteredAgents].sort((a, b) => {
-            // Sort by tip count (descending)
-            if (b.tipCount > a.tipCount) return 1;
-            if (b.tipCount < a.tipCount) return -1;
+            if (b.balance > a.balance) return 1;
+            if (b.balance < a.balance) return -1;
             return 0;
         });
     }, [filteredAgents]);
@@ -175,6 +194,12 @@ export default function LeaderboardPage() {
                                                 <Copy className="w-4 h-4" />
                                             )}
                                         </button>
+                                    </div>
+                                    <div className="col-span-2 text-right">
+                                        <span className="text-orange-400 font-semibold">
+                                            {formatNumber(Number(formatEther(agent.balance)))}
+                                        </span>
+                                        <span className="text-zinc-500 text-xs ml-1">$CLAWDOGE</span>
                                     </div>
                                     <div className="col-span-2 text-right text-zinc-300">
                                         {Number(agent.tipCount).toLocaleString()}
