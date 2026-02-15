@@ -154,15 +154,18 @@ describe("Clawboard Contracts", function () {
             // Tip the agent
             await registry.connect(user2).tip("grok-1", tipAmount);
 
-            // Check stats updated - totalReceived should be post-tax amount
+            // Check stats updated - tipCount should increment
             const agent = await registry.getAgent("grok-1");
             expect(agent.tipCount).to.equal(1);
-            const expectedAfterTax = tipAmount * POST_TAX_MULTIPLIER / TAX_DENOMINATOR;
-            expect(agent.totalReceived).to.equal(expectedAfterTax);
 
             // Agent wallet should have received tokens (minus 11.1% tax)
             const agentBalance = await clawdoge.balanceOf(user1.address);
+            const expectedAfterTax = tipAmount * POST_TAX_MULTIPLIER / TAX_DENOMINATOR;
             expect(agentBalance).to.equal(expectedAfterTax);
+
+            // getAgentBalance should return the same as direct balanceOf
+            const agentBalanceFromContract = await registry.getAgentBalance("grok-1");
+            expect(agentBalanceFromContract).to.equal(expectedAfterTax);
         });
 
         it("should fail tip() without approval", async function () {
@@ -174,34 +177,27 @@ describe("Clawboard Contracts", function () {
             ).to.be.reverted;
         });
 
-        it("should only allow owner to call recordTip", async function () {
-            await registry.connect(user1).registerAgent("grok-1", "Grok");
-            // recordTip expects post-tax amounts for historical data
-            const actualReceivedAmount = ethers.parseEther("88.9"); // post-tax amount
-
-            // owner can recordTip
-            await registry.recordTip("grok-1", user2.address, actualReceivedAmount);
-            const agent = await registry.getAgent("grok-1");
-            expect(agent.totalReceived).to.equal(actualReceivedAmount);
-
-            // non-owner cannot recordTip
-            await expect(
-                registry.connect(user2).recordTip("grok-1", user2.address, actualReceivedAmount)
-            ).to.be.reverted;
-        });
-
-        it("should return leaderboard data", async function () {
-            await registry.connect(user1).registerAgent("grok-1", "Grok");
-            await registry.connect(user2).registerAgent("claude", "Claude");
-
-            const leaderboard = await registry.getLeaderboard(0, 10);
-            expect(leaderboard.length).to.equal(2);
-        });
-
         it("should get agent wallet address", async function () {
             await registry.connect(user1).registerAgent("grok-1", "Grok");
             const wallet = await registry.getAgentWallet("grok-1");
             expect(wallet).to.equal(user1.address);
+        });
+
+        it("should get agent balance via getAgentBalance", async function () {
+            await registry.connect(user1).registerAgent("grok-1", "Grok");
+            
+            // Initially should be 0
+            let balance = await registry.getAgentBalance("grok-1");
+            expect(balance).to.equal(0);
+
+            // After minting some tokens to agent wallet
+            await vault.connect(user1).mint({ value: ethers.parseEther("1") });
+            balance = await registry.getAgentBalance("grok-1");
+            expect(balance).to.equal(ethers.parseEther("1000"));
+
+            // Should return 0 for non-existent agent
+            const nonExistentBalance = await registry.getAgentBalance("non-existent");
+            expect(nonExistentBalance).to.equal(0);
         });
     });
 
