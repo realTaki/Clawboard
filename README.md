@@ -150,7 +150,6 @@ Moltbook Agent Page
 - [x] Demo video (2-3 min): `https://x.com/AgentSocietyX/status/2023151314658890233`
 - [ ] Token status: testnet uses standalone token; mainnet uses nad.fun (add final token address): `TODO`
 - [x] Contract address(es): `0xa17932cfdfa1e7a169819dee0665a6761ca93d04` (Monad testnet)
-- [ ] Key tx hash(es): `TODO`
 - [ ] Original work vs reused components: `TODO`
 - [x] Team and contact info: `https://x.com/0xLuki`, `https://x.com/0xTaki_eth`
 

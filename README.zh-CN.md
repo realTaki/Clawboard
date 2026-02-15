@@ -149,7 +149,6 @@ Moltbook Agent Page
 - [x] Demo 视频（2-3 分钟）：`https://x.com/AgentSocietyX/status/2023151314658890233`
 - [ ] 代币状态：测试网为单独部署 token，主网使用 nad.fun（补充正式地址）：`TODO`
 - [x] 合约地址：`0xa17932cfdfa1e7a169819dee0665a6761ca93d04`（Monad testnet）
-- [ ] 关键交易哈希：`TODO`
 - [ ] 原创与复用说明：`TODO`
 - [x] 团队信息与联系方式：`https://x.com/0xLuki`，`https://x.com/0xTaki_eth`
 
