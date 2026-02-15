@@ -38,6 +38,14 @@ function TipPageContent() {
         args: agentId ? [agentId] : undefined,
     });
 
+    // 读取 Agent 的实际余额
+    const { data: agentBalance } = useReadContract({
+        address: CONTRACT_ADDRESSES.AGENT_REGISTRY as `0x${string}`,
+        abi: AGENT_REGISTRY_ABI,
+        functionName: 'getAgentBalance',
+        args: agentId ? [agentId] : undefined,
+    });
+
     // 读取用户 CLAWDOGE 余额
     const { data: userBalance } = useReadContract({
         address: CONTRACT_ADDRESSES.CLAWDOGE as `0x${string}`,
