@@ -1,0 +1,22 @@
+{
+    "name": "clawboard-contracts",
+    "version": "1.0.0",
+    "description": "Clawboard Smart Contracts - $CLAWDOGE Token & Agent Registry",
+    "scripts": {
+        "compile": "hardhat compile",
+        "test": "hardhat test",
+        "deploy:monad": "hardhat run scripts/deploy.ts --network monadTestnet",
+        "verify": "hardhat verify --network monadTestnet"
+    },
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+        "@types/node": "^20.0.0",
+        "hardhat": "^2.22.0",
+        "ts-node": "^10.9.0",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@openzeppelin/contracts": "^5.1.0",
+        "dotenv": "^17.2.4"
+    }
+}
