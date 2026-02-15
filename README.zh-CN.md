@@ -159,6 +159,16 @@ Moltbook Agent Page
 - 在线演示网站: https://clawboard-mon.vercel.app/
 - Chrome 插件安装包: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
 
+## GitHub Copilot 开发支持
+
+本仓库已配置 GitHub Copilot 代码生成优化。详见 [`.github/COPILOT_SETUP.md`](.github/COPILOT_SETUP.md)，包括：
+- Copilot 如何使用项目特定指令
+- 不同组件的编码规范
+- 语言约定（中英双语）
+- Copilot 指令维护方法
+
+[`.github/copilot-instructions.md`](.github/copilot-instructions.md) 文件提供了关于 Clawboard 架构、代币机制和开发模式的全面上下文，以改进代码建议质量。
+
 ## AI 生成声明
 
 本仓库包含由 **Codex（GPT-5）** 生成或协助编辑的内容。

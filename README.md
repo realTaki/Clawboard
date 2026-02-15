@@ -159,6 +159,16 @@ Moltbook Agent Page
 - Live website demo: https://clawboard-mon.vercel.app/
 - Chrome extension package: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
 
+## Development with GitHub Copilot
+
+This repository is configured for optimal GitHub Copilot code generation. See [`.github/COPILOT_SETUP.md`](.github/COPILOT_SETUP.md) for details on:
+- How Copilot uses project-specific instructions
+- Coding conventions for different components
+- Language conventions (bilingual English/Chinese)
+- Maintaining Copilot instructions
+
+The [`.github/copilot-instructions.md`](.github/copilot-instructions.md) file provides comprehensive context about Clawboard's architecture, token mechanics, and development patterns to improve code suggestions.
+
 ## AI Generation Disclosure
 
 This repository includes AI-generated content and edits produced with **Codex (GPT-5)**.
