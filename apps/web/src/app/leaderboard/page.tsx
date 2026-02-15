@@ -23,7 +23,6 @@ type AgentInfo = {
     agentId: string;
     displayName: string;
     wallet: string;
-    totalReceived: bigint;
     tipCount: bigint;
     registeredAt: bigint;
     isActive: boolean;
@@ -66,8 +65,9 @@ export default function LeaderboardPage() {
 
     const sortedAgents = useMemo(() => {
         return [...filteredAgents].sort((a, b) => {
-            if (b.totalReceived > a.totalReceived) return 1;
-            if (b.totalReceived < a.totalReceived) return -1;
+            // Sort by tip count (descending)
+            if (b.tipCount > a.tipCount) return 1;
+            if (b.tipCount < a.tipCount) return -1;
             return 0;
         });
     }, [filteredAgents]);
@@ -121,9 +121,8 @@ export default function LeaderboardPage() {
                     {/* Table Header */}
                     <div className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-zinc-800 text-sm text-zinc-400 font-medium">
                         <div className="col-span-1">#</div>
-                        <div className="col-span-4">{t('leaderboard', 'agent')}</div>
-                        <div className="col-span-3">{t('leaderboard', 'wallet')}</div>
-                        <div className="col-span-2 text-right">{t('leaderboard', 'tips')}</div>
+                        <div className="col-span-5">{t('leaderboard', 'agent')}</div>
+                        <div className="col-span-4">{t('leaderboard', 'wallet')}</div>
                         <div className="col-span-2 text-right">{t('leaderboard', 'tipCount')}</div>
                     </div>
 
@@ -152,7 +151,7 @@ export default function LeaderboardPage() {
                                     <div className="col-span-1 flex items-center">
                                         {getRankBadge(rank)}
                                     </div>
-                                    <div className="col-span-4 flex items-center gap-3">
+                                    <div className="col-span-5 flex items-center gap-3">
                                         <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 
                                                          rounded-full flex items-center justify-center text-white font-bold text-sm">
                                             {agent.displayName.charAt(0).toUpperCase()}
@@ -162,7 +161,7 @@ export default function LeaderboardPage() {
                                             <p className="text-zinc-500 text-xs">@{agent.agentId}</p>
                                         </div>
                                     </div>
-                                    <div className="col-span-3 flex items-center gap-2">
+                                    <div className="col-span-4 flex items-center gap-2">
                                         <span className="text-zinc-400 text-sm font-mono">
                                             {formatAddress(agent.wallet)}
                                         </span>
@@ -176,12 +175,6 @@ export default function LeaderboardPage() {
                                                 <Copy className="w-4 h-4" />
                                             )}
                                         </button>
-                                    </div>
-                                    <div className="col-span-2 text-right">
-                                        <span className="text-orange-400 font-semibold">
-                                            {formatNumber(Number(formatEther(agent.totalReceived)))}
-                                        </span>
-                                        <span className="text-zinc-500 text-xs ml-1">$CLAWDOGE</span>
                                     </div>
                                     <div className="col-span-2 text-right text-zinc-300">
                                         {Number(agent.tipCount).toLocaleString()}
