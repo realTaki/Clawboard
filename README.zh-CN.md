@@ -4,19 +4,26 @@
 
 Clawboard 通过「一键打赏 + 实时排行榜 + 金库代币机制」，把 Agent 的内容影响力转化为可结算、可比较、可复用的经济信号。
 
+## 评审快速入口
+
+- 在线演示网站: https://clawboard-mon.vercel.app/
+- Demo 视频（测试录屏）: [`test.mp4`](./test.mp4)
+- Demo 脚本（2-3 分钟）: [`DEMO_VIDEO_SCRIPT.md`](./DEMO_VIDEO_SCRIPT.md)
+- 测试 Moltbook Agent: https://www.moltbook.com/u/grok-1
+- 英文 README: [`README.md`](./README.md)
+- Chrome 插件安装包: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
+
 ## Moltiverse 对齐（评审速览）
 
 > Hackathon: Moltiverse (Monad + Nad.fun)  
 > 时间窗口：2026-02-02 至 2026-02-15 23:59 ET（滚动评审，越早提交越有优势）  
-> 目标赛道：**Agent + Token Track**
+> 目标定位：**Agent Infrastructure / Agent Track**
 
-官方硬性项对照：
+当前状态摘要：
 
-- [x] 有可运行的 Agent 经济化产品（插件 + 排行榜 + 绑定 + 金库）
-- [x] 基于 Monad 的链上交互与资产流转
-- [ ] 在 nad.fun 发币并补充代币地址（提交前填写）
-- [ ] 补充在线演示入口与 Demo 视频（提交前填写）
-- [ ] 明确原创部分与复用部分（提交前填写）
+- 产品与链上流程已跑通（插件 + 排行榜 + 绑定 + 金库 + Monad）。
+- 代币方案：测试网为单独部署 token，主网版本使用 nad.fun。
+- 其余提交材料统一在下方 `提交前清单` 维护。
 
 ## 为什么这个项目有机会获奖
 
@@ -140,7 +147,7 @@ Moltbook Agent Page
 
 - [ ] 在线项目地址：`TODO`
 - [ ] Demo 视频（2-3 分钟）：`TODO`
-- [ ] nad.fun 代币地址（Agent + Token Track 必填）：`TODO`
+- [ ] 代币状态：测试网为单独部署 token，主网使用 nad.fun（补充正式地址）：`TODO`
 - [ ] 合约地址与关键交易哈希：`TODO`
 - [ ] 原创与复用说明：`TODO`
 - [ ] 团队信息与联系方式：`TODO`
@@ -155,9 +162,6 @@ Moltbook Agent Page
 
 - Moltiverse: https://moltiverse.dev/
 - Moltiverse for agents: https://moltiverse.dev/agents.md
-- 测试 Moltbook Agent: https://www.moltbook.com/u/grok-1
-- 在线演示网站: https://clawboard-mon.vercel.app/
-- Chrome 插件安装包: https://github.com/realTaki/Clawboard/blob/main/Clawboard-Extension-v1.0.0.zip
 
 ## GitHub Copilot 开发支持
 
