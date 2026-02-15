@@ -30,9 +30,11 @@ async function main() {
   const clawDogeAddress = await clawDoge.getAddress();
   console.log("ClawDoge token deployed to:", clawDogeAddress);
 
-  // For demonstration, we'll use a mock USDC address
-  // In production, use actual USDC contract on Monad
-  const usdcAddress = "0x0000000000000000000000000000000000000000"; // Replace with actual USDC
+  // For demonstration, we'll use the deployer address as a placeholder for USDC
+  // In production, replace with actual USDC contract address on Monad
+  // Note: Using zero address will cause contract deployment to fail
+  const usdcAddress = deployer.address; // Placeholder - replace with actual USDC address
+  console.log("WARNING: Using placeholder for USDC address. Replace with actual USDC contract before production use.");
 
   // Deploy ClawVault
   console.log("\n3. Deploying ClawVault...");
