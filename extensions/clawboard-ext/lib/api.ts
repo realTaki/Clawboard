@@ -7,9 +7,9 @@ import { CONFIG, Agent, AGENT_REGISTRY_ABI } from './config';
 export async function fetchAgentInfo(agentId: string): Promise<Agent | null> {
     try {
         // ABI 编码 getAgent(string)
-        const data = encodeGetAgent(agentId);
+        const getAgentData = encodeGetAgent(agentId);
 
-        const response = await fetch(CONFIG.RPC_URL, {
+        const agentResponse = await fetch(CONFIG.RPC_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -18,19 +18,48 @@ export async function fetchAgentInfo(agentId: string): Promise<Agent | null> {
                 method: 'eth_call',
                 params: [{
                     to: CONFIG.AGENT_REGISTRY_ADDRESS,
-                    data,
+                    data: getAgentData,
                 }, 'latest'],
             }),
         });
 
-        const result = await response.json();
+        const agentResult = await agentResponse.json();
 
-        if (result.error || !result.result || result.result === '0x') {
+        if (agentResult.error || !agentResult.result || agentResult.result === '0x') {
             return null;
         }
 
         // 解码返回值
-        return decodeAgentInfo(result.result);
+        const agentInfo = decodeAgentInfo(agentResult.result);
+        if (!agentInfo) return null;
+
+        // 获取 agent 余额
+        const balanceData = encodeGetAgentBalance(agentId);
+        const balanceResponse = await fetch(CONFIG.RPC_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                jsonrpc: '2.0',
+                id: 2,
+                method: 'eth_call',
+                params: [{
+                    to: CONFIG.AGENT_REGISTRY_ADDRESS,
+                    data: balanceData,
+                }, 'latest'],
+            }),
+        });
+
+        const balanceResult = await balanceResponse.json();
+        const balanceBig = balanceResult.result && balanceResult.result !== '0x'
+            ? BigInt(balanceResult.result)
+            : BigInt(0);
+        
+        const balance = formatWei(balanceBig);
+
+        return {
+            ...agentInfo,
+            balance,
+        };
     } catch (error) {
         console.error('Error fetching agent from chain:', error);
         return null;
@@ -68,9 +97,35 @@ function encodeGetAgent(agentId: string): string {
 }
 
 /**
+ * 编码 getAgentBalance(string agentId) 的调用数据
+ * function selector: keccak256("getAgentBalance(string)") 前4字节
+ */
+function encodeGetAgentBalance(agentId: string): string {
+    // function selector for getAgentBalance(string)
+    // keccak256("getAgentBalance(string)") 前 4 字节
+    const selector = '0x0c85c9f7'; // keccak256("getAgentBalance(string)") 前4字节
+
+    // ABI 编码 string 参数 (same as getAgent)
+    const offset = '0000000000000000000000000000000000000000000000000000000000000020';
+
+    const encoder = new TextEncoder();
+    const strBytes = encoder.encode(agentId);
+    const strLen = strBytes.length.toString(16).padStart(64, '0');
+
+    let strHex = '';
+    for (const byte of strBytes) {
+        strHex += byte.toString(16).padStart(2, '0');
+    }
+    const padLength = Math.ceil(strHex.length / 64) * 64;
+    strHex = strHex.padEnd(padLength, '0');
+
+    return selector + offset + strLen + strHex;
+}
+
+/**
  * 解码 getAgent 返回的 ABI 编码数据
  */
-function decodeAgentInfo(hex: string): Agent | null {
+function decodeAgentInfo(hex: string): Omit<Agent, 'balance'> | null {
     try {
         // 去掉 '0x' 前缀
         const data = hex.startsWith('0x') ? hex.slice(2) : hex;
@@ -82,18 +137,17 @@ function decodeAgentInfo(hex: string): Agent | null {
         // [0] agentId (string - offset)
         // [1] displayName (string - offset)
         // [2] wallet (address)
-        // [3] totalReceived (uint256)
-        // [4] tipCount (uint256)
-        // [5] registeredAt (uint256)
-        // [6] isActive (bool)
+        // [3] tipCount (uint256)
+        // [4] registeredAt (uint256)
+        // [5] isActive (bool)
 
         // 第一个 word 是指向 tuple 的 offset
         const tupleOffset = parseInt(data.slice(0, 64), 16) * 2;
         const tupleData = data.slice(tupleOffset);
 
-        // 读取 tuple 内部的 7 个 word
+        // 读取 tuple 内部的 word
         const words: string[] = [];
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 12; i++) {
             words.push(tupleData.slice(i * 64, (i + 1) * 64));
         }
 
@@ -103,14 +157,12 @@ function decodeAgentInfo(hex: string): Agent | null {
         const displayNameOffset = parseInt(words[1], 16) * 2;
         // word[2] = wallet (address - last 20 bytes of 32-byte word)
         const wallet = '0x' + words[2].slice(24);
-        // word[3] = totalReceived (uint256)
-        const totalReceivedBig = BigInt('0x' + words[3]);
-        // word[4] = tipCount (uint256)
-        const tipCount = Number(BigInt('0x' + words[4]));
-        // word[5] = registeredAt (uint256)
-        // const registeredAt = Number(BigInt('0x' + words[5]));
-        // word[6] = isActive (bool)
-        const isActive = parseInt(words[6], 16) === 1;
+        // word[3] = tipCount (uint256)
+        const tipCount = Number(BigInt('0x' + words[3]));
+        // word[4] = registeredAt (uint256)
+        // const registeredAt = Number(BigInt('0x' + words[4]));
+        // word[5] = isActive (bool)
+        const isActive = parseInt(words[5], 16) === 1;
 
         // 解码 agentId string
         const agentId = decodeString(tupleData, agentIdOffset);
@@ -122,14 +174,10 @@ function decodeAgentInfo(hex: string): Agent | null {
             return null;
         }
 
-        // 格式化 totalReceived (wei → 可读数字)
-        const totalReceived = formatWei(totalReceivedBig);
-
         return {
             agentId,
             displayName,
             wallet,
-            totalReceived,
             tipCount,
             isActive,
         };

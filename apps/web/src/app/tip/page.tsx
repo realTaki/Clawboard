@@ -63,10 +63,18 @@ function TipPageContent() {
     const { isLoading: isTipConfirming, isSuccess: isTipSuccess } = useWaitForTransactionReceipt({ hash: tipHash });
 
     // 解析 Agent 数据
-    const agent = agentData as { agentId: string; displayName: string; wallet: string; totalReceived: bigint; tipCount: bigint; isActive: boolean } | undefined;
+    const agent = agentData as { agentId: string; displayName: string; wallet: string; tipCount: bigint; isActive: boolean } | undefined;
     const agentWallet = agent?.wallet;
     const agentName = agent?.displayName || agentNameFromUrl || agentId;
     const isRegistered = agent?.isActive && agentWallet && agentWallet !== '0x0000000000000000000000000000000000000000';
+
+    // 读取 Agent 余额
+    const { data: agentBalance } = useReadContract({
+        address: CONTRACT_ADDRESSES.AGENT_REGISTRY as `0x${string}`,
+        abi: AGENT_REGISTRY_ABI,
+        functionName: 'getAgentBalance',
+        args: agentId ? [agentId] : undefined,
+    });
 
     // 检查是否需要 approve
     const tipAmount = parseEther(amount.toString());
@@ -191,11 +199,11 @@ function TipPageContent() {
                                 <p className="text-sm text-yellow-500">⚠️ {t('tip', 'notRegistered')}</p>
                             )}
                         </div>
-                        {agent && agent.totalReceived > BigInt(0) && (
+                        {agent && agentBalance && agentBalance > BigInt(0) && (
                             <div className="text-right">
                                 <p className="text-xs text-zinc-500">{t('tip', 'totalReceived')}</p>
                                 <p className="text-orange-400 font-semibold">
-                                    {formatNumber(Number(formatEther(agent.totalReceived)))}
+                                    {formatNumber(Number(formatEther(agentBalance as bigint)))}
                                 </p>
                             </div>
                         )}

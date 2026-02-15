@@ -22,7 +22,7 @@ export interface Agent {
     agentId: string;
     displayName: string;
     wallet: string;
-    totalReceived: string; // formatted
+    balance: string; // formatted balance from getAgentBalance()
     tipCount: number;
     isActive: boolean;
 }
@@ -40,12 +40,18 @@ export const AGENT_REGISTRY_ABI = [
                 { name: 'agentId', type: 'string' },
                 { name: 'displayName', type: 'string' },
                 { name: 'wallet', type: 'address' },
-                { name: 'totalReceived', type: 'uint256' },
                 { name: 'tipCount', type: 'uint256' },
                 { name: 'registeredAt', type: 'uint256' },
                 { name: 'isActive', type: 'bool' },
             ],
         }],
+        stateMutability: 'view',
+    },
+    {
+        name: 'getAgentBalance',
+        type: 'function',
+        inputs: [{ name: 'agentId', type: 'string' }],
+        outputs: [{ name: '', type: 'uint256' }],
         stateMutability: 'view',
     },
 ] as const;
