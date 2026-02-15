@@ -172,15 +172,6 @@ Moltbook Agent Page
   - Contract test suite
   - Development documentation
 
-### 📋 Deployment Checklist
-
-- [ ] Deploy contracts to Monad testnet
-- [ ] Update contract addresses in extension and webapp
-- [ ] Deploy web app to hosting service
-- [ ] Create demo video (2-3 min)
-- [ ] Deploy token on nad.fun
-- [ ] Fill submission form with addresses
-
 ## Quick Start
 
 See [DEVELOPMENT.md](./DEVELOPMENT.md) for detailed setup instructions.
