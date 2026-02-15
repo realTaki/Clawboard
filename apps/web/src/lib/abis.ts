@@ -208,6 +208,13 @@ export const AGENT_REGISTRY_ABI = [
     },
     {
         inputs: [{ name: "agentId", type: "string" }],
+        name: "getAgentBalance",
+        outputs: [{ name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [{ name: "agentId", type: "string" }],
         name: "getAgentWallet",
         outputs: [{ name: "", type: "address" }],
         stateMutability: "view",
