@@ -124,11 +124,11 @@ async function sendTip(agentId, amount, fromAddress) {
 
     // Convert amount to wei (18 decimals)
     // Use string multiplication to avoid precision loss
-    const amountInWei = (parseFloat(amount) * 1e18).toFixed(0);
-    const amountWei = BigInt(amountInWei).toString(16);
+    const amountInWeiDecimal = (parseFloat(amount) * 1e18).toFixed(0);
+    const amountInWeiHex = BigInt(amountInWeiDecimal).toString(16);
 
     // ERC20 transfer function signature
-    const transferData = encodeTransfer(agentWallet, amountWei);
+    const transferData = encodeTransfer(agentWallet, amountInWeiHex);
 
     // Send transaction
     const txHash = await window.ethereum.request({

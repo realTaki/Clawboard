@@ -32,9 +32,24 @@ async function main() {
 
   // For demonstration, we'll use the deployer address as a placeholder for USDC
   // In production, replace with actual USDC contract address on Monad
-  // Note: Using zero address will cause contract deployment to fail
-  const usdcAddress = deployer.address; // Placeholder - replace with actual USDC address
-  console.log("WARNING: Using placeholder for USDC address. Replace with actual USDC contract before production use.");
+  // Note: Using deployer address as placeholder - MUST be replaced before production
+  const usdcAddress = process.env.USDC_ADDRESS || deployer.address;
+  
+  // Safety check: Warn if using deployer address as USDC
+  if (usdcAddress === deployer.address) {
+    console.log("\n" + "=".repeat(60));
+    console.log("⚠️  WARNING: USDC address is set to deployer address!");
+    console.log("⚠️  This is ONLY for testing. Set USDC_ADDRESS in .env");
+    console.log("⚠️  before production deployment.");
+    console.log("=".repeat(60) + "\n");
+    
+    // In production mode, fail the deployment
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error('USDC_ADDRESS must be set in production. Cannot use deployer address.');
+    }
+  } else {
+    console.log("Using USDC contract at:", usdcAddress);
+  }
 
   // Deploy ClawVault
   console.log("\n3. Deploying ClawVault...");
