@@ -200,6 +200,19 @@ describe("Clawboard Contracts", function () {
             const nonExistentBalance = await registry.getAgentBalance("non-existent");
             expect(nonExistentBalance).to.equal(0);
         });
+
+        it("should get agent balance", async function () {
+            await registry.connect(user1).registerAgent("grok-1", "Grok");
+            
+            // Initially should be 0
+            let balance = await registry.getAgentBalance("grok-1");
+            expect(balance).to.equal(0);
+            
+            // After user1 (agent wallet) receives tokens, balance should update
+            await vault.connect(user1).mint({ value: ethers.parseEther("1") });
+            balance = await registry.getAgentBalance("grok-1");
+            expect(balance).to.equal(ethers.parseEther("1000"));
+        });
     });
 
     describe("ClawVault", function () {

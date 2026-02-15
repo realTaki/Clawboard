@@ -221,6 +221,13 @@ export const AGENT_REGISTRY_ABI = [
         type: "function",
     },
     {
+        inputs: [{ name: "agentId", type: "string" }],
+        name: "getAgentBalance",
+        outputs: [{ name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
         inputs: [{ name: "offset", type: "uint256" }, { name: "limit", type: "uint256" }],
         name: "getLeaderboard",
         outputs: [

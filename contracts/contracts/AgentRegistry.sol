@@ -153,6 +153,18 @@ contract AgentRegistry is Ownable, ReentrancyGuard {
     }
 
     /**
+     * @notice 查询 Agent 钱包的实际代币余额
+     */
+    function getAgentBalance(string calldata agentId) external view returns (uint256) {
+        bytes32 agentHash = keccak256(abi.encodePacked(agentId));
+        address wallet = agents[agentHash].wallet;
+        if (wallet == address(0)) {
+            return 0;
+        }
+        return clawdoge.balanceOf(wallet);
+    }
+
+    /**
      * @notice 批量获取排行榜数据
      * @param offset 起始位置
      * @param limit 数量
