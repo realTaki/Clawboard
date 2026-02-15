@@ -1,5 +1,15 @@
 # Development Setup
 
+## Security Notice
+
+**IMPORTANT:** This project uses Next.js 15.0.8 or higher to address critical security vulnerabilities:
+- DoS via HTTP request deserialization in React Server Components
+- Authorization bypass in middleware
+- Cache poisoning
+- Server-Side Request Forgery
+
+Always ensure you're using the latest patched versions of dependencies.
+
 ## Prerequisites
 
 - Node.js 18+ and npm
