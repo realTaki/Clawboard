@@ -202,11 +202,11 @@ npx hardhat run scripts/deploy.js --network monad
 cd webapp && npm install && npm run dev
 ```
 
-## Submission Checklist (Fill Before Final Submit)
+## Submission Checklist
 
 - [x] Live project URL: `https://clawboard-mon.vercel.app/`
 - [x] Demo video (2-3 min): `https://x.com/AgentSocietyX/status/2023176022611648792`
-- [ ] Token status: testnet uses standalone token; mainnet uses nad.fun (add final token address): `TODO`
+- [ ] nad.fun token address (if final strategy uses nad.fun for mainnet): `TODO`
 - [x] Contract address(es): `0xa17932cfdfa1e7a169819dee0665a6761ca93d04` (Monad testnet)
 - [x] Original work vs reused components: see `Original vs Reused Components` below
 - [x] Team and contact info: `https://x.com/0xLuki`, `https://x.com/0xTaki_eth`
@@ -217,19 +217,19 @@ cd webapp && npm install && npm run dev
 
 - Product concept and mechanism design: agent incentive loop (`tip -> leaderboard -> vault`).
 - End-to-end UX flow: Moltbook entry, agent binding, tipping, leaderboard visibility, and vault interaction.
-- Project integration architecture across web app, extension, and contract interaction paths.
+- Integration architecture across web app, extension, and contract interaction paths.
 - Clawboard-specific documentation, demo narrative, and hackathon submission packaging.
 
 ### Reused / External Components
 
 - Open-source frameworks and tooling: `Next.js`, `React`, `TypeScript`, `TailwindCSS`, `Wagmi`, `Viem`, `Hardhat`, `WXT`.
 - Wallet/network infrastructure: standard wallet interactions and Monad testnet RPC infrastructure.
-- Platform dependencies: Moltbook as the external social/agent surface where tipping entry is triggered.
+- Platform dependency: Moltbook as the external social/agent surface where tipping is triggered.
 
 ### Notes
 
-- We reuse standard open-source libraries for infrastructure and developer productivity.
-- Core product direction, incentive design, and end-to-end user workflow are original to the Clawboard team.
+- Reused components are standard open-source infrastructure/tooling.
+- Core product direction, incentive mechanism, and end-to-end workflow are original to the Clawboard team.
 
 ## Roadmap
 

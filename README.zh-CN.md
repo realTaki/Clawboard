@@ -147,7 +147,7 @@ Moltbook Agent Page
 
 - [x] 在线项目地址：`https://clawboard-mon.vercel.app/`
 - [x] Demo 视频（2-3 分钟）：`https://x.com/AgentSocietyX/status/2023176022611648792`
-- [ ] 代币状态：测试网为单独部署 token，主网使用 nad.fun（补充正式地址）：`TODO`
+- [ ] nad.fun 代币地址（若最终主网策略采用 nad.fun）：`TODO`
 - [x] 合约地址：`0xa17932cfdfa1e7a169819dee0665a6761ca93d04`（Monad testnet）
 - [x] 原创与复用说明：见下方 `原创与复用说明`
 - [x] 团队信息与联系方式：`https://x.com/0xLuki`，`https://x.com/0xTaki_eth`
@@ -169,7 +169,7 @@ Moltbook Agent Page
 
 ### 说明
 
-- 我们复用的是通用开源基础设施与工程工具链。
+- 复用部分为通用开源基础设施与工程工具链。
 - Clawboard 的核心产品方向、激励机制与端到端用户闭环由团队原创设计并实现。
 
 ## 发展路线
