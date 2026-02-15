@@ -19,7 +19,6 @@ contract AgentRegistry is Ownable, ReentrancyGuard {
         string agentId;       // Moltbook Agent ID
         string displayName;   // 显示名称
         address wallet;       // 接收打赏的钱包地址
-        uint256 totalReceived;// 累计实际收到的打赏金额 (CLAWDOGE, 扣除转账税后)
         uint256 tipCount;     // 累计被打赏次数
         uint256 registeredAt; // 注册时间
         bool isActive;        // 是否激活
@@ -64,7 +63,6 @@ contract AgentRegistry is Ownable, ReentrancyGuard {
             agentId: agentId,
             displayName: displayName,
             wallet: msg.sender,
-            totalReceived: 0,
             tipCount: 0,
             registeredAt: block.timestamp,
             isActive: true
@@ -100,7 +98,7 @@ contract AgentRegistry is Ownable, ReentrancyGuard {
     }
 
     /**
-     * @notice 打赏 Agent (一站式: transferFrom + 更新统计)
+     * @notice 打赏 Agent
      * @dev 用户需先 approve 本合约足够的 CLAWDOGE 额度
      * @param agentId Agent ID
      * @param amount 打赏金额 (CLAWDOGE, 18 decimals)
@@ -114,43 +112,14 @@ contract AgentRegistry is Ownable, ReentrancyGuard {
         require(agent.isActive, "Agent not found");
         require(agent.wallet != address(0), "Agent has no wallet");
 
-        // 记录转账前的余额
-        uint256 balanceBefore = clawdoge.balanceOf(agent.wallet);
-
         // transferFrom: 从打赏者转到 Agent 钱包
         bool success = clawdoge.transferFrom(msg.sender, agent.wallet, amount);
         require(success, "Transfer failed");
 
-        // 记录转账后的余额，计算实际收到的金额（扣除转账税后）
-        // 注意: 如果在极短时间内有其他转账到同一钱包，可能会轻微高估实际收到的金额
-        // 但这种情况极其罕见，且使用余额差值比硬编码税率更准确和灵活
-        uint256 balanceAfter = clawdoge.balanceOf(agent.wallet);
-        uint256 actualReceived = balanceAfter - balanceBefore;
-
-        // 更新统计（记录实际收到的金额）
-        agent.totalReceived += actualReceived;
+        // 更新打赏次数
         agent.tipCount++;
         
         emit TipRecorded(agentHash, msg.sender, amount);
-    }
-
-    /**
-     * @notice 记录一次打赏 (仅 owner 可调用，用于历史数据补录)
-     * @dev 此函数直接添加 amount 到 totalReceived，用于补录历史数据时应传入实际收到的金额
-     * @param agentId Agent ID
-     * @param tipper 打赏者地址
-     * @param amount 实际收到的金额（应为扣除转账税后的金额）
-     */
-    function recordTip(string calldata agentId, address tipper, uint256 amount) external onlyOwner {
-        bytes32 agentHash = keccak256(abi.encodePacked(agentId));
-        AgentInfo storage agent = agents[agentHash];
-        
-        require(agent.isActive, "Agent not found");
-        
-        agent.totalReceived += amount;
-        agent.tipCount++;
-        
-        emit TipRecorded(agentHash, tipper, amount);
     }
 
     /**
@@ -159,6 +128,20 @@ contract AgentRegistry is Ownable, ReentrancyGuard {
     function getAgent(string calldata agentId) external view returns (AgentInfo memory) {
         bytes32 agentHash = keccak256(abi.encodePacked(agentId));
         return agents[agentHash];
+    }
+
+    /**
+     * @notice 查询 Agent 的 CLAWDOGE 余额
+     * @param agentId Agent ID
+     * @return Agent 钱包的 CLAWDOGE 余额
+     */
+    function getAgentBalance(string calldata agentId) external view returns (uint256) {
+        bytes32 agentHash = keccak256(abi.encodePacked(agentId));
+        address wallet = agents[agentHash].wallet;
+        if (wallet == address(0)) {
+            return 0;
+        }
+        return clawdoge.balanceOf(wallet);
     }
 
     /**
