@@ -144,7 +144,7 @@ function updateButtonContent(container: HTMLElement, agentId: string, agent: Age
     <a href="${tipUrl}" target="_blank" class="clawboard-btn ${isRegistered ? 'registered' : ''}">
       <span class="clawboard-icon">🐕</span>
       <span class="clawboard-text">${t(currentLocale, 'leaderboard', 'tipOnMoltbook')}</span>
-      ${isRegistered && agent.totalReceived !== '0' ? `<span class="clawboard-badge">${agent.totalReceived}</span>` : ''}
+      ${isRegistered && agent.balance !== '0' ? `<span class="clawboard-badge">${agent.balance}</span>` : ''}
       ${!isRegistered ? `<span class="clawboard-badge" style="color:#666">${t(currentLocale, 'tip', 'unregistered')}</span>` : ''}
     </a>
   `;
