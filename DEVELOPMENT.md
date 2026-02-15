@@ -1,107 +1,107 @@
 # Development Setup
 
-## Security Notice
-
-**IMPORTANT:** This project uses Next.js 15.2.9 to address critical security vulnerabilities:
-- DoS via HTTP request deserialization in React Server Components
-- RCE in React flight protocol
-- Authorization bypass in middleware
-- Cache poisoning
-- Server-Side Request Forgery
-
-Always ensure you're using the latest patched versions of dependencies. Run `npm audit` regularly.
-
 ## Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18+ and npm/pnpm
 - MetaMask or another Web3 wallet
 - Access to Monad testnet
 
 ## Project Structure
 
+This is a monorepo project with the following structure:
+
 ```
 Clawboard/
-├── contracts/          # Solidity smart contracts
-├── scripts/           # Deployment scripts
-├── test/              # Contract tests
-├── extension/         # Browser extension
-├── webapp/            # Next.js web application
+├── apps/
+│   └── web/              # Next.js web application
+├── extensions/
+│   └── clawboard-ext/    # Browser extension (WXT framework)
+├── contracts/            # Solidity smart contracts
+│   ├── contracts/        # Contract source files
+│   ├── scripts/          # Deployment scripts
+│   └── test/             # Contract tests
+├── .github/              # GitHub Actions & Copilot instructions
 └── README.md
 ```
 
 ## Smart Contracts
 
+The contracts are in the `contracts/` directory using Hardhat with TypeScript.
+
 ### Install Dependencies
 
 ```bash
+cd contracts
 npm install
 ```
 
 ### Compile Contracts
 
 ```bash
-npx hardhat compile
+npm run compile
 ```
 
 ### Run Tests
 
 ```bash
-npx hardhat test
+npm test
 ```
 
 ### Deploy to Monad
 
-1. Create a `.env` file:
+1. Create a `.env` file in the `contracts/` directory:
 
 ```bash
 MONAD_RPC_URL=https://rpc.monad.xyz
 PRIVATE_KEY=your_private_key_here
+USDC_ADDRESS=0x... # USDC contract address on Monad
 ```
 
 2. Deploy contracts:
 
 ```bash
-npx hardhat run scripts/deploy.js --network monad
+npm run deploy:monad
 ```
 
-The deployment will output contract addresses. Update these in:
-- `extension/content.js` (CLAWBOARD_CONFIG)
-- `webapp/src/config.ts` (if created)
+The deployment will output contract addresses. Update these in the web app and extension configurations.
 
 ## Browser Extension
+
+The extension is built with WXT framework in `extensions/clawboard-ext/`.
 
 ### Setup
 
 ```bash
-cd extension
+cd extensions/clawboard-ext
+npm install
 ```
 
-### Install in Browser
+### Development
 
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable "Developer mode"
-3. Click "Load unpacked"
-4. Select the `extension` directory
-
-### Update Configuration
-
-After deploying contracts, update `content.js`:
-
-```javascript
-const CLAWBOARD_CONFIG = {
-  registryAddress: 'YOUR_AGENT_REGISTRY_ADDRESS',
-  tokenAddress: 'YOUR_CLAWDOGE_TOKEN_ADDRESS',
-  chainId: 41454,
-  rpcUrl: 'https://rpc.monad.xyz'
-};
+```bash
+npm run dev  # Chrome
+npm run dev:firefox  # Firefox
 ```
+
+### Build for Production
+
+```bash
+npm run build
+npm run build:firefox
+```
+
+### Configuration
+
+After deploying contracts, update `extensions/clawboard-ext/lib/config.ts` with the deployed contract addresses.
 
 ## Web Application
+
+The web app is a Next.js application in `apps/web/`.
 
 ### Install Dependencies
 
 ```bash
-cd webapp
+cd apps/web
 npm install
 ```
 
@@ -120,73 +120,64 @@ npm run build
 npm start
 ```
 
+### Configuration
+
+Set environment variables in `apps/web/.env.local`:
+
+```bash
+NEXT_PUBLIC_CHAIN_ID=41454
+NEXT_PUBLIC_RPC_URL=https://rpc.monad.xyz
+NEXT_PUBLIC_CLAWDOGE_ADDRESS=0x...
+NEXT_PUBLIC_REGISTRY_ADDRESS=0x...
+NEXT_PUBLIC_VAULT_ADDRESS=0x...
+```
+
+
 ## Usage
 
 ### 1. Register Your Agent
 
-Use the AgentRegistry contract to bind your Moltbook agent:
+Use the web app or interact with the AgentRegistry contract directly:
 
-```solidity
-agentRegistry.registerAgent("your-moltbook-agent-id", walletAddress);
+```typescript
+// Using the contract
+await agentRegistry.registerAgent("your-agent-id", "Display Name");
 ```
 
 ### 2. Mint $CLAWDOGE Tokens
 
-1. Visit the Vault page
+1. Visit the Vault page in the web app
 2. Connect your wallet
 3. Approve USDC spending
 4. Mint tokens at current vault net value
 
 ### 3. Tip Agents
 
-1. Install the browser extension
+1. Install and configure the browser extension
 2. Visit a Moltbook agent page
 3. Click "Tip $CLAWDOGE"
 4. Enter amount and confirm transaction
 
 ### 4. View Leaderboard
 
-Visit the leaderboard page to see:
-- Top agents by tips received
-- Total tip amounts
+Visit the leaderboard page in the web app to see:
+- Top agents by token balance
+- Total tips received
 - Number of tips
 
 ## Token Economics
 
 - **Total Supply**: 2.1B $CLAWDOGE
-- **Initial Price**: 0.01 USDC
 - **Transfer Tax**: 11.1%
-  - 4.2% to treasury
+  - 4.2% to team wallet
   - 6.9% burned
+- **Vault Model**: Mint with USDC, redeem by burning tokens
 
-## Contract Addresses
+## Language Conventions
 
-After deployment, update this section with actual addresses:
-
-- **AgentRegistry**: TBD
-- **ClawDoge Token**: TBD
-- **ClawVault**: TBD
-- **Treasury**: TBD
-
-## Security
-
-- All contracts use OpenZeppelin libraries
-- Reentrancy protection on vault operations
-- Owner-only admin functions
-- Tax exemption for vault and treasury
-
-## Testing
-
-```bash
-# Run all tests
-npx hardhat test
-
-# Run with gas reporting
-REPORT_GAS=true npx hardhat test
-
-# Run with coverage
-npx hardhat coverage
-```
+- **Smart Contract Comments**: Use Chinese for NatSpec `@notice` documentation and inline comments, English for `require()` error messages
+- **Other Code**: Prefer English, but Chinese is acceptable in context-specific situations
+- **User-facing Messages**: Support internationalization (i18n)
 
 ## Troubleshooting
 
