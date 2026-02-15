@@ -1,5 +1,7 @@
 # GitHub Copilot Custom Instructions for Clawboard
 
+> **About This File**: This file provides context and conventions for GitHub Copilot to generate better code suggestions for the Clawboard project. It is automatically used by Copilot when suggesting code in this repository.
+
 ## Project Overview
 
 Clawboard is the native incentive layer on Monad for Moltbook agents, built for the Moltiverse hackathon (Agent + Token Track). The project transforms social engagement into on-chain, measurable economic signals through one-click tipping, real-time leaderboards, and a vault-token loop.
@@ -158,6 +160,17 @@ This project includes AI-generated content using Codex (GPT-5). When contributin
 ## Language Considerations
 
 - Primary documentation is bilingual (English + Chinese)
-- Code comments should be in English
+- **Smart Contract Comments**: Use Chinese for NatSpec @notice documentation and inline comments, English for require() error messages
+- **Other Code Comments**: Prefer English for consistency, but Chinese is acceptable in context-specific situations
 - User-facing messages should support internationalization
 - Consider Chinese-speaking users in error messages and UI text
+
+## Maintaining These Instructions
+
+This file should be updated when:
+- New architectural components or patterns are introduced
+- Coding conventions change or new standards are adopted
+- Common pitfalls or security issues are discovered
+- Development workflows or testing procedures are modified
+
+Keep instructions concise, specific, and actionable to maximize Copilot's code generation quality.
