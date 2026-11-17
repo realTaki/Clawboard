@@ -76,14 +76,6 @@ function TipPageContent() {
     const agentName = agent?.displayName || agentNameFromUrl || agentId;
     const isRegistered = agent?.isActive && agentWallet && agentWallet !== '0x0000000000000000000000000000000000000000';
 
-    // 读取 Agent 余额
-    const { data: agentBalance } = useReadContract({
-        address: CONTRACT_ADDRESSES.AGENT_REGISTRY as `0x${string}`,
-        abi: AGENT_REGISTRY_ABI,
-        functionName: 'getAgentBalance',
-        args: agentId ? [agentId] : undefined,
-    });
-
     // 检查是否需要 approve
     const tipAmount = parseEther(amount.toString());
     const needsApproval = allowance !== undefined && (allowance as bigint) < tipAmount;
